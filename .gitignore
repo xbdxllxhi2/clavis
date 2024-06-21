@@ -1,0 +1,61 @@
+# Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+crash.*
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Docker files
+*.log
+*.pid
+docker-compose.override.yml
+.env
+
+# Python related
+__pycache__/
+*.pyc
+
+# Logs
+*.log
+
+# Node.js
+node_modules/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+
+# Ignore any directories named "build"
+build/
+
+# Ignore any directories named "dist"
+dist/
+
+# Ignore IDE/editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore dependency directories
+node_modules/
+.venv/
+env/
+
+# Ignore output of ctags
+tags
+
+# Ignore other unwanted files
+*.bak
+*.tmp
+*.backup

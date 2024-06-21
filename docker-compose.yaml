@@ -1,0 +1,65 @@
+services:
+  keycloak:
+    depends_on:
+      keycloak_db:
+        condition: service_healthy
+    image: bitnami/keycloak:24.0.5
+    container_name: keycloak
+    ports:
+      - 8085:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_HTTP_PORT: 8080
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak
+      KEYCLOAK_DATABASE_HOST: keycloak_db
+      KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: true
+    networks:
+      - keycloak_network
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --head -fsS http://localhost:8080/health/ready || exit 1" ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+  keycloak_db:
+    image: postgres:16-alpine
+    container_name: keycloak_db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    networks:
+      - keycloak_network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U keycloak" ]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+
+  terraform_keycloak:
+    image: hashicorp/terraform:1.8
+    container_name: terraform_keycloak
+    working_dir: /terraform
+    entrypoint: [ "/bin/sh", "-c" ]
+    environment:
+      TF_VAR_keycloak_url: http://keycloak:8080
+    command:
+      - |
+        terraform init
+        terraform apply -auto-approve
+    volumes:
+      - ./terraform:/terraform
+    networks:
+      - keycloak_network
+    depends_on:
+      keycloak:
+        condition: service_healthy
+
+networks:
+  keycloak_network:
+    driver: bridge
