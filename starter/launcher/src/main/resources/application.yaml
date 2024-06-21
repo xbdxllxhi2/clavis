@@ -1,0 +1,59 @@
+clavis:
+  keycloak_url: http://localhost:8085
+server:
+  port: 8090
+  servlet:
+    context-path: /api
+
+
+spring: # Spring Security Configuration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${clavis.keycloak_url}/realms/clavis-admin
+          jwk-set-uri: ${clavis.keycloak_url}/realms/clavis-admin/protocol/openid-connect/certs
+
+
+#        opaquetoken:
+#          client-id: clavis-backend
+#          client-secret: VNAlCuE4NK9r5nIIhrS1gkrQFdGFD1bO
+#      client:
+#        registration:
+#          keycloak:
+#            client-id: clavis-backend
+#            client-secret: VNAlCuE4NK9r5nIIhrS1gkrQFdGFD1bO
+##            redirect-uri: ${clavis.keycloak_url}/login/oauth2/code/{registrationId}
+#        provider:
+#          keycloak:
+#            issuer-uri: ${clavis.keycloak_url}/realms/clavis-admin
+
+# Keycloak Configuration
+#keycloak:
+#  auth-server-url: ${clavis.keycloak_url}/auth
+#  realm: master
+#  resource: admin-cli
+#  public-client: true
+#  security-constraints:
+#    - authRoles:
+#        - your-required-role
+#      securityCollections:
+#        - patterns:
+#            - /api/**  # Adjust this URL pattern based on your API endpoint structure
+keycloak:
+  auth-server-url: ${clavis.keycloak_url}/realms/clavis-admin/protocol/openid-connect/auth
+  realm: clavis-admin
+  credentials:
+    client-secret: clavis-backend
+    client-id: clavis-backend
+
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.security.web.FilterChainProxy: DEBUG
+    org.springframework.security.web.access.intercept.FilterSecurityInterceptor: DEBUG
+
+
+
+
+

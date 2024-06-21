@@ -48,6 +48,7 @@ services:
     entrypoint: [ "/bin/sh", "-c" ]
     environment:
       TF_VAR_keycloak_url: http://keycloak:8080
+      TF_VAR_backend_url: http://localhost:8090/api
     command:
       - |
         terraform init
