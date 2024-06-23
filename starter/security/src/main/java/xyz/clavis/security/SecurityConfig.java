@@ -1,24 +1,20 @@
 package xyz.clavis.security;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import xyz.clavis.security.endpointsconfiguration.SecurityConstants;
 import xyz.clavis.security.utils.JwtAuthConverter;
 
 
@@ -35,8 +31,10 @@ public class SecurityConfig {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(t -> t.disable());
     http.authorizeHttpRequests(authorize -> {
-      authorize.requestMatchers("/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**", "/public/**")
+      authorize.requestMatchers(SecurityConstants.WHITE_LISTED_PATHS)
           .permitAll()
+          .requestMatchers(SecurityConstants.SECURED + "/admin/**").hasRole("admin")
+          .requestMatchers(SecurityConstants.SECURED + "/user/**").hasRole("USER")
           .anyRequest().authenticated();
     });
     http.oauth2ResourceServer(t -> {
@@ -47,22 +45,26 @@ public class SecurityConfig {
     return http.build();
   }
 
-  @Bean
-  public DefaultMethodSecurityExpressionHandler msecurity() {
-    DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler =
-        new DefaultMethodSecurityExpressionHandler();
-    defaultMethodSecurityExpressionHandler.setDefaultRolePrefix("");
-    return defaultMethodSecurityExpressionHandler;
-  }
+//  @Bean
+//  public DefaultMethodSecurityExpressionHandler msecurity() {
+//    DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler =
+//        new DefaultMethodSecurityExpressionHandler();
+//    defaultMethodSecurityExpressionHandler.setDefaultRolePrefix("");
+//    return defaultMethodSecurityExpressionHandler;
+//  }
 
   @Bean
   public JwtAuthenticationConverter con() {
     JwtAuthenticationConverter c = new JwtAuthenticationConverter();
     JwtGrantedAuthoritiesConverter cv = new JwtGrantedAuthoritiesConverter();
-    cv.setAuthorityPrefix(""); // Default "SCOPE_"
-    cv.setAuthoritiesClaimName("roles"); // Default "scope" or "scp"
+    cv.setAuthorityPrefix("");
+    cv.setAuthoritiesClaimName("roles");
     c.setJwtGrantedAuthoritiesConverter(cv);
     return c;
   }
 
+  @Bean
+  SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+    return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+  }
 }

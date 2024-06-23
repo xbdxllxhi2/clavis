@@ -6,7 +6,6 @@
         <groupId>xyz.clavis</groupId>
         <artifactId>starter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>xyz.clavis</groupId>
@@ -17,12 +16,11 @@
 
     <properties>
         <java.version>17</java.version>
+        <keycloak.version>25.0.1</keycloak.version>
+        <swagger.version>2.5.0</swagger.version>
+        <keycloak-spring.version>24.0.5</keycloak-spring.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
@@ -46,18 +44,26 @@
         <!--KEYCLOAK-->
         <dependency>
             <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+            <version>${keycloak.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.keycloak</groupId>
             <artifactId>keycloak-spring-security-adapter</artifactId>
+            <version>${keycloak-spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-spring-boot-starter</artifactId>
+            <version>${keycloak-spring.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.5.0</version>
+            <version>${swagger.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -65,19 +71,11 @@
             <dependency>
                 <groupId>org.keycloak.bom</groupId>
                 <artifactId>keycloak-adapter-bom</artifactId>
-                <version>24.0.5</version>
+                <version>${keycloak.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

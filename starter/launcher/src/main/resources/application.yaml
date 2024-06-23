@@ -1,5 +1,12 @@
 clavis:
   keycloak_url: http://localhost:8085
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
 server:
   port: 8090
   servlet:
@@ -41,11 +48,11 @@ spring: # Spring Security Configuration
 #        - patterns:
 #            - /api/**  # Adjust this URL pattern based on your API endpoint structure
 keycloak:
-  auth-server-url: ${clavis.keycloak_url}/realms/clavis-admin/protocol/openid-connect/auth
-  realm: clavis-admin
+  auth-server-url: ${clavis.keycloak_url}
+  realm: master
   credentials:
-    client-secret: clavis-backend
-    client-id: clavis-backend
+    secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
+  resource: clavis-backend
 
 logging:
   level:

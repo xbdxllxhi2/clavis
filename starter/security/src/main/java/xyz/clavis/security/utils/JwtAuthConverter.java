@@ -6,15 +6,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.keycloak.adapters.springsecurity.account.KeycloakRole;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
   @Override
@@ -24,18 +26,20 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
   }
 
   private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
-    if(jwt.getClaim("realm_access") != null) {
+    if (jwt.getClaim("realm_access") != null) {
       Map<String, Object> realmAccess = jwt.getClaim("realm_access");
       ObjectMapper mapper = new ObjectMapper();
-      List<String> keycloakRoles = mapper.convertValue(realmAccess.get("roles"), new TypeReference<List<String>>(){});
+      List<String> keycloakRoles =
+          mapper.convertValue(realmAccess.get("roles"), new TypeReference<List<String>>() {
+          });
       List<GrantedAuthority> roles = new ArrayList<>();
 
       for (String keycloakRole : keycloakRoles) {
-        roles.add(new SimpleGrantedAuthority("ROLE_"+keycloakRole));
+        roles.add(new KeycloakRole("ROLE_" + keycloakRole));
       }
 
       // Log roles
-      roles.forEach(role -> System.out.println("Role: " + role.getAuthority()));
+      log.info("Extracted realm roles from JWT: {}", roles);
 
       return roles;
     }
