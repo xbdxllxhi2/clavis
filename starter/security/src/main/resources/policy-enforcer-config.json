@@ -1,0 +1,18 @@
+{
+  "realm": "clavis-admin",
+  "auth-server-url": "http://localhost:8085",
+  "resource": "clavis-backend",
+  "credentials": {
+    "secret": "clavis-backend"
+  },
+  "paths": [
+    {
+      "path": "/swagger-ui/*",
+      "enforcement-mode": "DISABLED"
+    },
+    {
+      "path": "/v3/api-docs/*",
+      "enforcement-mode": "DISABLED"
+    }
+  ]
+}

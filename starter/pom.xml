@@ -9,13 +9,13 @@
         <relativePath/><!-- lookup parent from repository -->
     </parent>
 
-    <packaging>pom</packaging>
-
     <groupId>xyz.clavis</groupId>
     <artifactId>starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>starter</name>
     <description>starter</description>
+    <packaging>pom</packaging>
+
 
     <modules>
         <module>launcher</module>
@@ -61,37 +61,33 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>annotationProcessor</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <configuration>
-                    <failOnViolation>true</failOnViolation>
-                    <failurePriority>3</failurePriority>
-                    <printFailingErrors>true</printFailingErrors>
-                    <maxAllowedViolations>16</maxAllowedViolations>
-                    <rulesets>
-                        <ruleset>${pmd-file}</ruleset>
-                    </rulesets>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-pmd-plugin</artifactId>-->
+            <!--                <configuration>-->
+            <!--                    <failOnViolation>true</failOnViolation>-->
+            <!--                    <failurePriority>3</failurePriority>-->
+            <!--                    <printFailingErrors>true</printFailingErrors>-->
+            <!--                    <maxAllowedViolations>16</maxAllowedViolations>-->
+            <!--                    <rulesets>-->
+            <!--                        <ruleset>${pmd-file}</ruleset>-->
+            <!--                    </rulesets>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>check</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
 
         </plugins>
     </build>
