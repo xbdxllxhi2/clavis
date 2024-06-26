@@ -49,10 +49,13 @@ spring: # Spring Security Configuration
 #            - /api/**  # Adjust this URL pattern based on your API endpoint structure
 keycloak:
   auth-server-url: ${clavis.keycloak_url}
-  realm: master
+  realm: clavis-admin
   credentials:
     secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
-  resource: clavis-backend
+    username: clavis
+    password: clavis
+  resource: admin-cli
+
 
 logging:
   level:
