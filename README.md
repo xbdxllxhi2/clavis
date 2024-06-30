@@ -1,4 +1,4 @@
-# Clavis SDK
+# Clavis
 
 Clavis is an SDK that streamlines the integration of essential boilerplate code in Spring Boot applications. Using Keycloak for Identity and Access Management (IAM), Clavis simplifies security, logging, and repetitive tasks, allowing developers to focus on core functionalities. Ideal for both microservices and monolithic applications, Clavis provides a robust foundation to enhance security and operational efficiency.
 

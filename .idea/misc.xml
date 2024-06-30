@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/starter/pom.xml" />
         <option value="$PROJECT_DIR$/starter/launcher/pom.xml" />
         <option value="$PROJECT_DIR$/starter/security/pom.xml" />
+        <option value="$PROJECT_DIR$/starter/kafka/pom.xml" />
+        <option value="$PROJECT_DIR$/kcspi/pom.xml" />
       </list>
     </option>
   </component>

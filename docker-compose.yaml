@@ -16,6 +16,8 @@ services:
       KEYCLOAK_DATABASE_PASSWORD: keycloak
       KEYCLOAK_DATABASE_HOST: keycloak_db
       KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: true
+    volumes:
+      - ./providers:/opt/bitnami/keycloak/providers
     networks:
       - keycloak_network
     healthcheck:

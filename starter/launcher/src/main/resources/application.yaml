@@ -1,5 +1,12 @@
 clavis:
-  keycloak_url: http://localhost:8085
+  keycloak:
+    url: http://localhost:8085
+    realm: clavis-admin
+    resource: admin-cli
+    credentials:
+      secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
+      username: clavis
+      password: clavis
 
 springdoc:
   api-docs:
@@ -12,49 +19,20 @@ server:
   servlet:
     context-path: /api
 
-
 spring: # Spring Security Configuration
+  banner:
+    location: banner.txt
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${clavis.keycloak_url}/realms/clavis-admin
-          jwk-set-uri: ${clavis.keycloak_url}/realms/clavis-admin/protocol/openid-connect/certs
+          issuer-uri: ${clavis.keycloak.url}/realms/${clavis.keycloak.realm}
+          jwk-set-uri: ${clavis.keycloak.url}/realms/clavis-admin/protocol/openid-connect/certs
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: clavis
 
-
-#        opaquetoken:
-#          client-id: clavis-backend
-#          client-secret: VNAlCuE4NK9r5nIIhrS1gkrQFdGFD1bO
-#      client:
-#        registration:
-#          keycloak:
-#            client-id: clavis-backend
-#            client-secret: VNAlCuE4NK9r5nIIhrS1gkrQFdGFD1bO
-##            redirect-uri: ${clavis.keycloak_url}/login/oauth2/code/{registrationId}
-#        provider:
-#          keycloak:
-#            issuer-uri: ${clavis.keycloak_url}/realms/clavis-admin
-
-# Keycloak Configuration
-#keycloak:
-#  auth-server-url: ${clavis.keycloak_url}/auth
-#  realm: master
-#  resource: admin-cli
-#  public-client: true
-#  security-constraints:
-#    - authRoles:
-#        - your-required-role
-#      securityCollections:
-#        - patterns:
-#            - /api/**  # Adjust this URL pattern based on your API endpoint structure
-keycloak:
-  auth-server-url: ${clavis.keycloak_url}
-  realm: clavis-admin
-  credentials:
-    secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
-    username: clavis
-    password: clavis
-  resource: admin-cli
 
 
 logging:
