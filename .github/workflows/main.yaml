@@ -25,3 +25,9 @@ jobs:
         run: echo "Run tests"
         working-directory: starter
 
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run tests
+        run: echo "Integrations tests"
+        working-directory: starter
