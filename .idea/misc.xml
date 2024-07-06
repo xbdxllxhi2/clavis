@@ -7,7 +7,14 @@
         <option value="$PROJECT_DIR$/starter/pom.xml" />
         <option value="$PROJECT_DIR$/starter/launcher/pom.xml" />
         <option value="$PROJECT_DIR$/starter/security/pom.xml" />
+        <option value="$PROJECT_DIR$/starter/kafka/pom.xml" />
+        <option value="$PROJECT_DIR$/kcspi/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/starter/common-models/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

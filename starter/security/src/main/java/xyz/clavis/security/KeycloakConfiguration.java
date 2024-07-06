@@ -12,17 +12,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KeycloakConfiguration {
   //Change this to read from OAuthIdpConfig
-  @Value("${keycloak.auth-server-url}")
+  @Value("${clavis.keycloak.url}")
   private String authServerUrl;
-  @Value("${keycloak.realm}")
+  @Value("${clavis.keycloak.realm}")
   private String realm;
-  @Value("${keycloak.resource}")
+  @Value("${clavis.keycloak.resource}")
   private String clientId;
-  @Value("${keycloak.credentials.secret}")
+  @Value("${clavis.keycloak.credentials.secret}")
   private String secret;
-  @Value("${keycloak.credentials.username}")
+  @Value("${clavis.keycloak.credentials.username}")
   private String userName;
-  @Value("${keycloak.credentials.password}")
+  @Value("${clavis.keycloak.credentials.password}")
   private String password;
 
 
@@ -32,7 +32,7 @@ public class KeycloakConfiguration {
         .serverUrl(authServerUrl)
         .realm(realm)
         .clientId(clientId)
-//        .clientSecret(secret)
+        .clientSecret(secret)
         .username(userName)
         .password(password)
         .grantType(OAuth2Constants.PASSWORD)

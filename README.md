@@ -1,21 +1,13 @@
 # Clavis SDK
 
-Clavis is an SDK that streamlines the integration of essential boilerplate code in Spring Boot applications. Using Keycloak for Identity and Access Management (IAM), Clavis simplifies security, logging, and repetitive tasks, allowing developers to focus on core functionalities. Ideal for both microservices and monolithic applications, Clavis provides a robust foundation to enhance security and operational efficiency.
+Clavis is a versatile SDK designed to streamline the integration of essential cross-cutting features into applications. It empowers developers to enhance security, manage authorization, optimize performance with caching, and implement robust logging, all in a unified toolkit.
 
 ## Features
 
-- **Integrated Security**: Easy integration with Keycloak for secure authentication and authorization.
-- **Logging**: Standardized logging mechanisms for consistent and meaningful log entries.
-- **IAM**: Simplified management of Identity and Access using Keycloak.
-- **Boilerplate Code**: Reduce redundancy with pre-written code for common tasks.
+- **Authentication and Authorization:** Seamless integration with Keycloak for secure user authentication and role-based access control (RBAC).
+- **Event-Driven Communication:** Utilizes Kafka for efficient, real-time communication through event-driven architecture.
+- **Cache Management:** Implements caching mechanisms to optimize application performance and responsiveness.
+- **Logging:** Provides comprehensive logging capabilities to track and analyze application activities.
 
-## Installation
 
-Add the following dependency to your `pom.xml`:
 
-```xml
-<dependency>
-    <groupId>com.example</groupId>
-    <artifactId>clavis</artifactId>
-    <version>1.0.0</version>
-</dependency>

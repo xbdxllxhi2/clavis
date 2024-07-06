@@ -16,6 +16,10 @@ services:
       KEYCLOAK_DATABASE_PASSWORD: keycloak
       KEYCLOAK_DATABASE_HOST: keycloak_db
       KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: true
+    profiles:
+      - keycloak
+    volumes:
+      - ./providers:/opt/bitnami/keycloak/providers
     networks:
       - keycloak_network
     healthcheck:
@@ -33,6 +37,8 @@ services:
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: keycloak
       POSTGRES_DB: keycloak
+    profiles:
+      - keycloak
     networks:
       - keycloak_network
     healthcheck:
@@ -53,6 +59,8 @@ services:
       - |
         terraform init
         terraform apply -auto-approve
+    profiles:
+      - keycloak
     volumes:
       - ./terraform:/terraform
     networks:
@@ -60,6 +68,31 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - 8086:2181
+    networks:
+      - keycloak_network
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - 8087:9092
+    volumes:
+      - ./scripts/kafka/createtopic.sh:/createtopic.sh
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+    #    command: [ "sh", "-c","./createtopic.sh","kc-user-event" ]
+    depends_on:
+      - zookeeper
+    networks:
+      - keycloak_network
 
 networks:
   keycloak_network:

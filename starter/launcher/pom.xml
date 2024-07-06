@@ -16,12 +16,18 @@
 
     <properties>
         <java.version>17</java.version>
+        <klavis-version>0.0.1-SNAPSHOT</klavis-version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>xyz.clavis</groupId>
             <artifactId>security</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${klavis-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>xyz.clavis</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${klavis-version}</version>
         </dependency>
 
         <!-- Other dependencies-->
