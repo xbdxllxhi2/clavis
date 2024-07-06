@@ -22,5 +22,5 @@ jobs:
             ${{runner.os}}-m2
 
       - name: Run tests
-        run: mvn clean verify -DskipITs=true
+        run: mvn clean verify -DskipITs=true -f starter/pom.xml
 
