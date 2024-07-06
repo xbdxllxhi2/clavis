@@ -13,7 +13,7 @@ public class KCUserCreationEventProviderFactory implements EventListenerProvider
 
   @Override
   public EventListenerProvider create(KeycloakSession session) {
-    return new KCUserCreationEventProvider(session);
+    return new KCUserCreationEventProvider(session,"kafka:9092","KC_EVENT");
   }
 
   @Override

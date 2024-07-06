@@ -10,7 +10,7 @@ public class Listener {
 
   Logger logger = LoggerFactory.getLogger(Listener.class);
 
-  @KafkaListener(topics = "KC_USER_CREATION", groupId = "clavis")
+  @KafkaListener(topics = "KC_EVENT", groupId = "clavis")
   public void listen(String message) {
     logger.info("Keycloak user creation event received");
     System.out.println("Received Messasge in group foo: " + message);
