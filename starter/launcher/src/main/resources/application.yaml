@@ -28,10 +28,10 @@ spring: # Spring Security Configuration
         jwt:
           issuer-uri: ${clavis.keycloak.url}/realms/${clavis.keycloak.realm}
           jwk-set-uri: ${clavis.keycloak.url}/realms/clavis-admin/protocol/openid-connect/certs
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      group-id: clavis
+#  kafka:
+#    bootstrap-servers: localhost:8087
+#    consumer:
+#      group-id: clavis
 
 
 

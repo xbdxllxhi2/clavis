@@ -6,10 +6,9 @@
         <groupId>xyz.clavis</groupId>
         <artifactId>starter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
-    <groupId>xyz.clavis</groupId>
     <artifactId>launcher</artifactId>
     <name>launcher</name>
     <description>launcher</description>
@@ -24,11 +23,11 @@
             <artifactId>security</artifactId>
             <version>${klavis-version}</version>
         </dependency>
-        <dependency>
-            <groupId>xyz.clavis</groupId>
-            <artifactId>kafka</artifactId>
-            <version>${klavis-version}</version>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>xyz.clavis</groupId>-->
+        <!--            <artifactId>kafka</artifactId>-->
+        <!--            <version>${klavis-version}</version>-->
+        <!--        </dependency>-->
 
         <!-- Other dependencies-->
         <dependency>

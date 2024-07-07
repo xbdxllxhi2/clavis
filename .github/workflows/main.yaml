@@ -22,5 +22,5 @@ jobs:
             ${{runner.os}}-m2
 
       - name: Run tests
-        run: echo "Run tests"
-        working-directory: starter
+        run: mvn clean install
+        working-directory: starter/launcher

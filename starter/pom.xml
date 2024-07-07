@@ -20,7 +20,6 @@
         <module>launcher</module>
         <module>security</module>
         <module>kafka</module>
-        <module>common-models</module>
     </modules>
 
     <properties>
