@@ -8,24 +8,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>xyz.clavis</groupId>
     <artifactId>kafka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>kafka</name>
     <description>kafka</description>
     <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
         <java.version>17</java.version>
     </properties>

@@ -16,6 +16,8 @@ services:
       KEYCLOAK_DATABASE_PASSWORD: keycloak
       KEYCLOAK_DATABASE_HOST: keycloak_db
       KEYCLOAK_ENABLE_HEALTH_ENDPOINTS: true
+      KC_SPI_EVENTS_LISTENER_CLAVIS_LISTENER_BOOTSRAPSERVERS: kafka:9092
+      KC_SPI_EVENTS_LISTENER_CLAVIS_LISTENER_TOPICNAME: keycloak-event
     profiles:
       - keycloak
     volumes:
