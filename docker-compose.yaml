@@ -83,12 +83,12 @@ services:
     image: wurstmeister/kafka
     container_name: kafka
     ports:
-      - 8087:9092
+      - 9092:9092
     volumes:
       - ./scripts/kafka/createtopic.sh:/createtopic.sh
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_ADVERTISED_HOST_NAME: localhost
     #    command: [ "sh", "-c","./createtopic.sh","kc-user-event" ]
     depends_on:

@@ -7,6 +7,9 @@ clavis:
       secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
       username: clavis
       password: clavis
+  kafka:
+    bootstrap-servers: localhost:9092
+    keycloak-topic: keycloak-event
 
 springdoc:
   api-docs:
@@ -28,10 +31,9 @@ spring: # Spring Security Configuration
         jwt:
           issuer-uri: ${clavis.keycloak.url}/realms/${clavis.keycloak.realm}
           jwk-set-uri: ${clavis.keycloak.url}/realms/clavis-admin/protocol/openid-connect/certs
-#  kafka:
-#    bootstrap-servers: localhost:8087
-#    consumer:
-#      group-id: clavis
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
 
 
 
