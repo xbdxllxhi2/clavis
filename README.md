@@ -41,7 +41,7 @@ To get your environment up and running, follow these steps:
    and the backend.
 
     ```bash
-        docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --create --topic keycloak-event --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
+    docker exec -it kafka /opt/kafka/bin/kafka-topics.sh --create --topic keycloak-event --partitions 1 --replication-factor 1 --bootstrap-server localhost:9092
     ```
 
 3. **Access Keycloak and Configure Event Listener**: After the containers are up and running, proceed to configure

@@ -12,7 +12,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>kafka</name>
     <description>kafka</description>
-    <url/>
 
     <properties>
         <java.version>17</java.version>
@@ -38,14 +37,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
