@@ -19,11 +19,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-  @Value("${clavis.keycloak.url}/realms/clavis-admin/protocol/openid-connect/auth")
+  @Value("#{clavisSecurityConfigModel.keycloak.url}/realms/clavis-admin/protocol/openid-connect/auth")
   private String authorizationUrl;
   @Value(
       "${spring.security.oauth2.resourceserver.jwt.issuer-uri}" + "/protocol/openid-connect/token")
   private String tokenUrl;
+
 
   @Bean
   public OpenAPI customOpenAPI() {

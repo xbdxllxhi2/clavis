@@ -23,11 +23,11 @@
             <artifactId>security</artifactId>
             <version>${klavis-version}</version>
         </dependency>
-                <dependency>
-                    <groupId>xyz.clavis</groupId>
-                    <artifactId>kafka</artifactId>
-                    <version>${klavis-version}</version>
-                </dependency>
+        <dependency>
+            <groupId>xyz.clavis</groupId>
+            <artifactId>kafka</artifactId>
+            <version>${klavis-version}</version>
+        </dependency>
 
         <!-- Other dependencies-->
         <dependency>
