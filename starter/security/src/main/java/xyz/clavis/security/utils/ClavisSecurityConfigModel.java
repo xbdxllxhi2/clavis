@@ -12,6 +12,15 @@ import org.springframework.context.annotation.Configuration;
 public class ClavisSecurityConfigModel {
   private KeycloakModel keycloak;
   private ApiConfigModel apiConfig;
+  private KeycloakAdminModel keycloakAdmin;
+
+  @Getter
+  @Setter
+  public static class KeycloakAdminModel {
+    private String realm;
+    private String clientId;
+    private String clientSecret;
+  }
 
 
   @Getter

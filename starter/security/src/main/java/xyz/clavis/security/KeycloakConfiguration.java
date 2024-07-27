@@ -23,9 +23,9 @@ public class KeycloakConfiguration {
   Keycloak keycloak() {
     return KeycloakBuilder.builder()
         .serverUrl(securityConfigModel.getKeycloak().getUrl())
-        .realm(securityConfigModel.getKeycloak().getRealm())
-        .clientId(securityConfigModel.getKeycloak().getResource())
-        .clientSecret(securityConfigModel.getKeycloak().getCredentials().getSecret())
+        .realm(securityConfigModel.getKeycloakAdmin().getRealm())
+        .clientId(securityConfigModel.getKeycloakAdmin().getClientId())
+        .clientSecret(securityConfigModel.getKeycloakAdmin().getClientSecret())
         .grantType(OAuth2Constants.CLIENT_CREDENTIALS)
         .build();
   }

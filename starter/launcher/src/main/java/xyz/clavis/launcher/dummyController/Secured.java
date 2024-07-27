@@ -27,6 +27,7 @@ public class Secured extends ClavisSecureController {
   @GetMapping("/admin/hello")
   String admin() {
     this.clavisKeycloakService.getRealm("master");
+    clavisKeycloakService.getCurrentUser();
     return "I am from admin !";
   }
 }

@@ -30,6 +30,10 @@ clavis:
       resource: clavis-backend
       credentials:
         secret: clavis-backend
+    keycloak-admin:
+      realm: master
+      client-id: admin-cli
+      client-secret: w40SLSd95bsNqwagXbjNRWuzurBvpZ5Q
   kafka:
     bootstrap-servers: localhost:9092
     keycloak-topic: keycloak-event

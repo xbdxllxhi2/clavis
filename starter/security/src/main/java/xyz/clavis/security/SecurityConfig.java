@@ -82,7 +82,6 @@ public class SecurityConfig {
 
 
   @Bean
-  @ConditionalOnMissingBean
   public JwtAuthenticationConverter con() {
     JwtAuthenticationConverter c = new JwtAuthenticationConverter();
     JwtGrantedAuthoritiesConverter cv = new JwtGrantedAuthoritiesConverter();
@@ -93,7 +92,6 @@ public class SecurityConfig {
   }
 
   @Bean
-  @ConditionalOnMissingBean
   SessionAuthenticationStrategy sessionAuthenticationStrategy() {
     return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
   }
