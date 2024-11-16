@@ -3,7 +3,10 @@ package xyz.clavis.security.api;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import xyz.clavis.security.ClavisUserRepresentation;
 
 
 @Service
@@ -42,4 +45,12 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
   public void updateUser(String realmName, UserRepresentation userRepresentation) {
     throw new UnsupportedOperationException("Not implemented yet");
   }
+
+  @Override
+  public ClavisUserRepresentation getCurrentUser() {
+    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    return ClavisUserRepresentation.buildFrom(jwt);
+  }
+
 }

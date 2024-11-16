@@ -18,6 +18,16 @@ resource "keycloak_openid_client" "clavis-backend" {
   }
 }
 
+resource "keycloak_openid_client" "clavis-front" {
+  access_type           = "PUBLIC"
+  client_id             = "clavis-front"
+  client_secret         = "clavis-front"
+  realm_id              = keycloak_realm.clavis-admin-realm.id
+  web_origins = ["*"]
+  valid_redirect_uris = ["http://localhost:4200/*"]
+  standard_flow_enabled = true
+}
+
 resource "keycloak_role" "clavis-backend-admin-role" {
   name     = "admin"
   realm_id = keycloak_realm.clavis-admin-realm.id

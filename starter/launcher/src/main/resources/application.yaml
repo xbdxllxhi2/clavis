@@ -1,40 +1,42 @@
-clavis:
-  keycloak:
-    url: http://localhost:8085
-    realm: clavis-admin
-    resource: admin-cli
-    credentials:
-      secret: EaWMwr4I5mtKVMaW3zoPOCMBSuRBJBJa
-      username: clavis
-      password: clavis
-  kafka:
-    bootstrap-servers: localhost:9092
-    keycloak-topic: keycloak-event
-
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-
 server:
   port: 8090
   servlet:
     context-path: /api
 
-spring: # Spring Security Configuration
+spring:
   banner:
     location: banner.txt
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${clavis.keycloak.url}/realms/${clavis.keycloak.realm}
-          jwk-set-uri: ${clavis.keycloak.url}/realms/clavis-admin/protocol/openid-connect/certs
+          issuer-uri: ${clavis.security.keycloak.url}/realms/${clavis.security.keycloak.realm}
+          jwk-set-uri: ${clavis.security.keycloak.url}/realms/clavis-admin/protocol/openid-connect/certs
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: ${clavis.kafka.bootstrap-servers}
 
+clavis:
+  security:
+    api-config:
+      whitelisted-urls:
+        - /swagger-ui/*
+        - /v3/api-docs/*
+        - /public/*
+        - /error/*
+    keycloak:
+      url: http://localhost:8085
+      realm: clavis-admin
+      resource: clavis-backend
+      credentials:
+        secret: clavis-backend
+    keycloak-admin:
+      realm: master
+      client-id: admin-cli
+      client-secret: w40SLSd95bsNqwagXbjNRWuzurBvpZ5Q
+  kafka:
+    bootstrap-servers: localhost:9092
+    keycloak-topic: keycloak-event
 
 
 logging:

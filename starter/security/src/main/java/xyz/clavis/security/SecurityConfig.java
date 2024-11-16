@@ -2,13 +2,12 @@ package xyz.clavis.security;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import org.keycloak.adapters.authorization.integration.jakarta.ServletPolicyEnforcerFilter;
-import org.keycloak.adapters.authorization.spi.ConfigurationResolver;
-import org.keycloak.adapters.authorization.spi.HttpRequest;
 import org.keycloak.representations.adapters.config.PolicyEnforcerConfig;
-import org.keycloak.util.JsonSerialization;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +23,7 @@ import org.springframework.security.oauth2.server.resource.web.authentication.Be
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
-import xyz.clavis.security.utils.JwtAuthConverter;
+import xyz.clavis.security.utils.ClavisSecurityConfigModel;
 
 
 @Configuration
@@ -33,10 +32,14 @@ import xyz.clavis.security.utils.JwtAuthConverter;
 @ComponentScan(basePackages = "xyz.clavis.security")
 public class SecurityConfig {
 
-  @Autowired
-  JwtAuthConverter jwtAuthConverter;
+  private final ClavisSecurityConfigModel securityConfigModel;
+
+  public SecurityConfig(ClavisSecurityConfigModel securityConfigModel) {
+    this.securityConfigModel = securityConfigModel;
+  }
 
   @Bean
+  @ConditionalOnMissingBean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable);
 
@@ -44,7 +47,6 @@ public class SecurityConfig {
 
     http.oauth2ResourceServer(t -> {
       t.jwt(withDefaults());
-//      (jwtConfigurer) ->    jwtConfigurer.jwtAuthenticationConverter(jwtAuthConverter));
     });
 
     http.sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -52,27 +54,31 @@ public class SecurityConfig {
   }
 
   private ServletPolicyEnforcerFilter createPolicyFilter() {
-    return new ServletPolicyEnforcerFilter(new ConfigurationResolver() {
-      @Override
-      public PolicyEnforcerConfig resolve(HttpRequest httpRequest) {
-        try {
-          return JsonSerialization.readValue(
-              getClass().getResourceAsStream("/policy-enforcer-config.json"),
-              PolicyEnforcerConfig.class);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    });
+    return new ServletPolicyEnforcerFilter(httpRequest -> getPolicyEnforcerConfig());
   }
 
-//  @Bean
-//  public DefaultMethodSecurityExpressionHandler msecurity() {
-//    DefaultMethodSecurityExpressionHandler defaultMethodSecurityExpressionHandler =
-//        new DefaultMethodSecurityExpressionHandler();
-//    defaultMethodSecurityExpressionHandler.setDefaultRolePrefix("");
-//    return defaultMethodSecurityExpressionHandler;
-//  }
+  private PolicyEnforcerConfig getPolicyEnforcerConfig() {
+    var policyEnforceConfig = new PolicyEnforcerConfig();
+
+    policyEnforceConfig.setAuthServerUrl(securityConfigModel.getKeycloak().getUrl());
+    policyEnforceConfig.setRealm(securityConfigModel.getKeycloak().getRealm());
+    policyEnforceConfig.setResource(securityConfigModel.getKeycloak().getResource());
+    policyEnforceConfig.setCredentials(
+        Map.of("secret", securityConfigModel.getKeycloak().getCredentials().getSecret()));
+    policyEnforceConfig.setPaths(getPathConfigs());
+
+    return policyEnforceConfig;
+  }
+
+  private List<PolicyEnforcerConfig.PathConfig> getPathConfigs() {
+    return Arrays.stream(securityConfigModel.getApiConfig().getWhitelistedUrls())
+        .map(url -> {
+          var pathConfig = new PolicyEnforcerConfig.PathConfig();
+          pathConfig.setPath(url);
+          pathConfig.setEnforcementMode(PolicyEnforcerConfig.EnforcementMode.DISABLED);
+          return pathConfig;
+        }).toList();
+  }
 
 
   @Bean

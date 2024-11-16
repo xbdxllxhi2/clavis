@@ -1,6 +1,5 @@
 package xyz.clavis.launcher.dummyController;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -11,9 +10,12 @@ import xyz.clavis.security.endpointsconfiguration.ClavisSecureController;
 
 @RestController
 public class Secured extends ClavisSecureController {
-  @Autowired
-  ClavisKeycloakService clavisKeycloakService;
+  private final ClavisKeycloakService clavisKeycloakService;
   RequestContextHolder holder;
+
+  public Secured(ClavisKeycloakService clavisKeycloakService) {
+    this.clavisKeycloakService = clavisKeycloakService;
+  }
 
   @GetMapping("/dummy")
   @PreAuthorize("hasRole('ROLE_dummy')")
@@ -25,6 +27,7 @@ public class Secured extends ClavisSecureController {
   @GetMapping("/admin/hello")
   String admin() {
     this.clavisKeycloakService.getRealm("master");
+    clavisKeycloakService.getCurrentUser();
     return "I am from admin !";
   }
 }
