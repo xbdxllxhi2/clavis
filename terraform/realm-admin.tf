@@ -4,7 +4,7 @@ resource "keycloak_realm" "clavis-admin-realm" {
 }
 
 resource "keycloak_openid_client" "clavis-backend" {
-  access_type                  = "PUBLIC"
+  access_type                  = "CONFIDENTIAL"
   client_id                    = "clavis-backend"
   client_secret                = "clavis-backend"
   valid_redirect_uris = ["${var.backend_url}/*"]
@@ -19,8 +19,9 @@ resource "keycloak_openid_client" "clavis-backend" {
 }
 
 resource "keycloak_openid_client" "clavis-front" {
-  access_type           = "CONFIDENTIAL"
+  access_type           = "PUBLIC"
   client_id             = "clavis-front"
+  client_secret         = "clavis-front"
   realm_id              = keycloak_realm.clavis-admin-realm.id
   web_origins = ["*"]
   valid_redirect_uris = ["http://localhost:4200/*"]

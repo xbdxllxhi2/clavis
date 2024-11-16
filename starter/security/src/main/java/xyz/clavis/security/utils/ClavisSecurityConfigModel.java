@@ -14,6 +14,20 @@ public class ClavisSecurityConfigModel {
   private ApiConfigModel apiConfig;
   private KeycloakAdminModel keycloakAdmin;
 
+  public String getIssuerUri() {
+    return keycloak.getUrl() + "/realms/" + keycloak.getRealm();
+  }
+
+  public String getAuthorizationUrl() {
+    return getIssuerUri() + "/protocol/openid-connect/auth";
+  }
+
+
+  public String getTokenUrl() {
+    return getIssuerUri() + "/protocol/openid-connect/token";
+  }
+
+
   @Getter
   @Setter
   public static class KeycloakAdminModel {

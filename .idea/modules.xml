@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/clavis.iml" filepath="$PROJECT_DIR$/.idea/clavis.iml" />
-      <module fileurl="file://$PROJECT_DIR$/starter/launcher/launcher.iml" filepath="$PROJECT_DIR$/starter/launcher/launcher.iml" />
-      <module fileurl="file://$PROJECT_DIR$/starter/security/security.iml" filepath="$PROJECT_DIR$/starter/security/security.iml" />
     </modules>
   </component>
 </project>
