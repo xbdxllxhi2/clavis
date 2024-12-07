@@ -1,12 +1,14 @@
 package xyz.clavis.security.api;
 
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import xyz.clavis.security.ClavisUserRepresentation;
+import xyz.clavis.security.models.UpdateUserCommand;
 
 
 @Service
@@ -41,16 +43,27 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
     throw new UnsupportedOperationException("Not implemented yet");
   }
 
-  @Override
-  public void updateUser(String realmName, UserRepresentation userRepresentation) {
-    throw new UnsupportedOperationException("Not implemented yet");
+
+  public void updateUser(String realmName, UpdateUserCommand updateUserCommand) {
+    assert updateUserCommand != null;
+    UserResource userResource =
+        this.keycloak.realm(realmName).users().get(updateUserCommand.getUserId());
+    var userRepresentation = updateUserCommand.updateAndReturn(userResource.toRepresentation());
+    userResource.update(userRepresentation);
   }
+
 
   @Override
   public ClavisUserRepresentation getCurrentUser() {
     var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
         .getPrincipal();
     return ClavisUserRepresentation.buildFrom(jwt);
+  }
+
+  public UserRepresentation getCurrentUserRepresentation() {
+    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    return this.getUser(jwt.getClaim("iss"), jwt.getClaim("sub"));
   }
 
 }
