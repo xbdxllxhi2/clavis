@@ -4,6 +4,8 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import xyz.clavis.security.ClavisUserRepresentation;
 import xyz.clavis.security.models.ClavisPassword;
 import xyz.clavis.security.models.UpdateUserCommand;
@@ -20,6 +22,15 @@ public interface ClavisKeycloakService {
    */
   RealmRepresentation getRealm(String realmName);
 
+  /**
+   * Get the current realm resource.
+   *
+   * <p>
+   * Realm resource exposes the apis provided by keycloak to manage the realm.
+   * </p>
+   *
+   * @return {@link RealmResource}
+   */
   RealmResource getCurrentRealmResource();
 
   /**
@@ -62,17 +73,22 @@ public interface ClavisKeycloakService {
   /**
    * Update a user in the realm.
    *
-   * @param realmName
+   * @param realmName         the realm name.
    * @param updateUserCommand the command to update the user.
    */
   void updateUser(String realmName, UpdateUserCommand updateUserCommand);
 
   /**
    * Get the current user.
+   * <p> The default implementation returns the user representation from the JWT claims.</p>
    *
    * @return {@link ClavisUserRepresentation}
    */
-  ClavisUserRepresentation getCurrentUser();
+  default ClavisUserRepresentation getCurrentUser() {
+    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    return ClavisUserRepresentation.buildFrom(jwt);
+  }
 
   /**
    * Get the current user representation.
@@ -82,9 +98,35 @@ public interface ClavisKeycloakService {
   UserRepresentation getCurrentUserRepresentation();
 
   /**
+   * Get the id of the current user.
+   * <p>
+   * The default implementation returns the sub claim from the JWT.
+   *
+   * @return
+   */
+  default String getIdOfCurrentUser() {
+    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    return jwt.getClaim("sub");
+  }
+
+  /**
+   * Get the realm of the current user.
+   *
+   * <p>The default implementation returns the azp claim from the JWT.</p>
+   *
+   * @return the realm name of the current user.
+   */
+  default String getRealmOfCurrentUser() {
+    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
+        .getPrincipal();
+    return jwt.getClaim("azp");
+  }
+
+  /**
    * update the password of the current user.
    *
-   * @param password the new password.
+   * @param password the new password of current user.
    */
   void updatePasswordOfCurrentUser(ClavisPassword password);
 }

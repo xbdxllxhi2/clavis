@@ -6,10 +6,7 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-import xyz.clavis.security.ClavisUserRepresentation;
 import xyz.clavis.security.models.ClavisPassword;
 import xyz.clavis.security.models.UpdateUserCommand;
 
@@ -68,27 +65,10 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
 
 
   @Override
-  public ClavisUserRepresentation getCurrentUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return ClavisUserRepresentation.buildFrom(jwt);
-  }
-
   public UserRepresentation getCurrentUserRepresentation() {
     return this.getUser(getRealmOfCurrentUser(), getIdOfCurrentUser());
   }
 
-  public String getIdOfCurrentUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return jwt.getClaim("sub");
-  }
-
-  public String getRealmOfCurrentUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return jwt.getClaim("iss");
-  }
 
   @Override
   public void updatePasswordOfCurrentUser(ClavisPassword password) {
