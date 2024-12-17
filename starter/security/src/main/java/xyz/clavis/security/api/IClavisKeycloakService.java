@@ -1,13 +1,13 @@
 package xyz.clavis.security.api;
 
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-import xyz.clavis.security.ClavisUserRepresentation;
+import xyz.clavis.security.models.ClavisPassword;
 import xyz.clavis.security.models.UpdateUserCommand;
 
 
@@ -22,6 +22,16 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
   @Override
   public RealmRepresentation getRealm(String realmName) {
     return this.keycloak.realm(realmName).toRepresentation();
+  }
+
+  @Override
+  public RealmResource getCurrentRealmResource() {
+    return this.keycloak.realm(getRealmOfCurrentUser());
+  }
+
+  @Override
+  public UserResource getCurrentUserResource() {
+    return this.keycloak.realm(getRealmOfCurrentUser()).users().get(getIdOfCurrentUser());
   }
 
   @Override
@@ -44,6 +54,7 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
   }
 
 
+  @Override
   public void updateUser(String realmName, UpdateUserCommand updateUserCommand) {
     assert updateUserCommand != null;
     UserResource userResource =
@@ -54,16 +65,18 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
 
 
   @Override
-  public ClavisUserRepresentation getCurrentUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return ClavisUserRepresentation.buildFrom(jwt);
+  public UserRepresentation getCurrentUserRepresentation() {
+    return this.getUser(getRealmOfCurrentUser(), getIdOfCurrentUser());
   }
 
-  public UserRepresentation getCurrentUserRepresentation() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return this.getUser(jwt.getClaim("iss"), jwt.getClaim("sub"));
+
+  @Override
+  public void updatePasswordOfCurrentUser(ClavisPassword password) {
+    CredentialRepresentation credentialRepresentation = new CredentialRepresentation();
+    credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
+    credentialRepresentation.setValue(password.getPassword());
+
+    this.getCurrentUserResource().resetPassword(credentialRepresentation);
   }
 
 }
