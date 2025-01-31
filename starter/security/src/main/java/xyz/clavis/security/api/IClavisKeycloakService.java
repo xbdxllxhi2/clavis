@@ -6,17 +6,18 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.stereotype.Service;
 import xyz.clavis.security.models.ClavisPassword;
 import xyz.clavis.security.models.UpdateUserCommand;
+import xyz.clavis.security.utils.ClavisSecurityConfigModel;
 
 
-@Service
 public class IClavisKeycloakService implements ClavisKeycloakService {
   private final Keycloak keycloak;
+  private final ClavisSecurityConfigModel securityConfigModel;
 
-  public IClavisKeycloakService(Keycloak keycloak) {
+  public IClavisKeycloakService(Keycloak keycloak, ClavisSecurityConfigModel securityConfigModel) {
     this.keycloak = keycloak;
+    this.securityConfigModel = securityConfigModel;
   }
 
   @Override
@@ -36,7 +37,7 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
 
   @Override
   public UserRepresentation getUser(String realmName, String userId) {
-    return this.keycloak.realm(realmName).users().searchByUsername(userId, true).get(0);
+    return this.keycloak.realm(realmName).users().get(userId).toRepresentation();
   }
 
   @Override
@@ -67,6 +68,11 @@ public class IClavisKeycloakService implements ClavisKeycloakService {
   @Override
   public UserRepresentation getCurrentUserRepresentation() {
     return this.getUser(getRealmOfCurrentUser(), getIdOfCurrentUser());
+  }
+
+  @Override
+  public String getRealmOfCurrentUser() {
+    return this.securityConfigModel.getKeycloak().getRealm();
   }
 
 

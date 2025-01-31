@@ -6,8 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.keycloak.adapters.authorization.integration.jakarta.ServletPolicyEnforcerFilter;
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.adapters.config.PolicyEnforcerConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,8 @@ import org.springframework.security.oauth2.server.resource.web.authentication.Be
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import xyz.clavis.security.api.ClavisKeycloakService;
+import xyz.clavis.security.api.IClavisKeycloakService;
 import xyz.clavis.security.utils.ClavisSecurityConfigModel;
 
 
@@ -39,7 +43,7 @@ public class SecurityConfig {
   }
 
   @Bean
-  @ConditionalOnMissingBean
+  @ConditionalOnProperty(value = "clavis.security.enabled", havingValue = "true", matchIfMissing = true)
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable);
 
@@ -94,5 +98,12 @@ public class SecurityConfig {
   @Bean
   SessionAuthenticationStrategy sessionAuthenticationStrategy() {
     return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public ClavisKeycloakService clavisKeycloakService(Keycloak keycloak,
+                                                     ClavisSecurityConfigModel securityConfigModel) {
+    return new IClavisKeycloakService(keycloak, securityConfigModel);
   }
 }

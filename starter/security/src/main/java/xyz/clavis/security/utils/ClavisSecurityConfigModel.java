@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class ClavisSecurityConfigModel {
+  private boolean enabled;
   private KeycloakModel keycloak;
   private ApiConfigModel apiConfig;
   private KeycloakAdminModel keycloakAdmin;

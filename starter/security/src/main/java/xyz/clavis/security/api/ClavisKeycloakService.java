@@ -117,11 +117,7 @@ public interface ClavisKeycloakService {
    *
    * @return the realm name of the current user.
    */
-  default String getRealmOfCurrentUser() {
-    var jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication()
-        .getPrincipal();
-    return jwt.getClaim("azp");
-  }
+  String getRealmOfCurrentUser();
 
   /**
    * update the password of the current user.

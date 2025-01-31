@@ -66,31 +66,21 @@
     </dependencies>
 
 
-
-
     <build>
         <plugins>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-pmd-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <failOnViolation>true</failOnViolation>-->
-            <!--                    <failurePriority>3</failurePriority>-->
-            <!--                    <printFailingErrors>true</printFailingErrors>-->
-            <!--                    <maxAllowedViolations>16</maxAllowedViolations>-->
-            <!--                    <rulesets>-->
-            <!--                        <ruleset>${pmd-file}</ruleset>-->
-            <!--                    </rulesets>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <goals>-->
-            <!--                            <goal>check</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
