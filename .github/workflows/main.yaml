@@ -17,8 +17,8 @@ jobs:
 
       - name: Run Unit tests
         run: mvn test
-        working-directory: starter/launcher
+        working-directory: starter
 
       - name: Run tests
         run: mvn clean install
-        working-directory: starter/launcher
+        working-directory: starter
