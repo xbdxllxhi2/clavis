@@ -10,7 +10,7 @@
 
     <groupId>xyz.clavis</groupId>
     <artifactId>starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>starter</name>
     <description>starter</description>
     <packaging>pom</packaging>

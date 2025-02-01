@@ -5,11 +5,11 @@
     <parent>
         <groupId>xyz.clavis</groupId>
         <artifactId>starter</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>security</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>security</name>
     <description>security</description>
 
