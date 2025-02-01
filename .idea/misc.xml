@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/starter/security/pom.xml" />
         <option value="$PROJECT_DIR$/starter/kafka/pom.xml" />
         <option value="$PROJECT_DIR$/kcspi/pom.xml" />
+        <option value="$PROJECT_DIR$/launcher/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

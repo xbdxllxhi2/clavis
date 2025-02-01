@@ -15,9 +15,7 @@
     <description>starter</description>
     <packaging>pom</packaging>
 
-
     <modules>
-        <module>launcher</module>
         <module>security</module>
         <module>kafka</module>
     </modules>
