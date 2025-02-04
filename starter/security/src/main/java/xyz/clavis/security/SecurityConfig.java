@@ -46,6 +46,7 @@ public class SecurityConfig {
   @ConditionalOnProperty(value = "clavis.security.enabled", havingValue = "true", matchIfMissing = true)
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable);
+    http.cors(withDefaults());
 
     http.addFilterAfter(createPolicyFilter(), BearerTokenAuthenticationFilter.class);
 
