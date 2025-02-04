@@ -5,11 +5,10 @@ name: Maven Package
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,10 +22,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           server-id: github
-          settings-path: ${{ github.workspace }}/.github/maven
+          settings-path: ${{ github.workspace }}/.github/maven/settings.xml
 
       - name: Build with Maven
-        run: mvn -B package --file start/pom.xml
+        run: mvn -B package --file starter/pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
