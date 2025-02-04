@@ -22,12 +22,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           server-id: github
-          settings-path: ${{ github.workspace }}/.github/maven/settings.xml
+          settings-path: ${{ github.workspace }}/.github/maven
+
+      - name: Debug - List repo contents
+        run: ls -R $GITHUB_WORKSPACE
 
       - name: Build with Maven
         run: mvn -B package --file starter/pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+        run: mvn deploy -s $GITHUB_WORKSPACE/.github/maven/settings.xml
         env:
           GITHUB_TOKEN: ${{ github.token }}
